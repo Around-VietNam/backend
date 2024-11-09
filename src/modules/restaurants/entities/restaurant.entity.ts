@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/utils/entity/base-entity';
 import { Column, Entity, Index, OneToMany } from 'typeorm';
 import { RestaurantFeedBack } from './feedback.entity';
+import { Dish } from 'src/modules/dishes/entites/dish.entity';
 
 @Entity('restaurant')
 export class Restaurant extends BaseEntity {
@@ -28,4 +29,7 @@ export class Restaurant extends BaseEntity {
 
   @OneToMany(() => RestaurantFeedBack, (feedback) => feedback.restaurant)
   feedbacks: RestaurantFeedBack[];
+
+  @OneToMany(() => Dish, (dish) => dish.restaurant)
+  dishes: Dish[];
 }
