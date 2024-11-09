@@ -1,9 +1,10 @@
 import { User } from 'src/modules/users/entities/user.entity';
 import { BaseEntity } from 'src/utils/entity/base-entity';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { Dish } from './dish.entity';
 
 @Entity('dish_feedback')
-export class Dish extends BaseEntity {
+export class DishFeedback extends BaseEntity {
   @Column({ nullable: false })
   @Index()
   dish_id: number;
@@ -16,4 +17,7 @@ export class Dish extends BaseEntity {
 
   @Column({ nullable: true })
   image: string;
+
+  @ManyToOne(() => Dish, (dish) => dish.feedbacks)
+  dish: Dish;
 }
