@@ -1,5 +1,8 @@
+import { Dish } from 'src/modules/dishes/entites/dish.entity';
+import { Landmark } from 'src/modules/landmark/entities/landmark.entity';
+import { Restaurant } from 'src/modules/restaurants/entities/restaurant.entity';
 import { BaseEntity } from 'src/utils/entity/base-entity';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, JoinTable, ManyToMany } from 'typeorm';
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -28,4 +31,16 @@ export class User extends BaseEntity {
 
   @Column()
   hash_password: string;
+
+  @ManyToMany(() => Restaurant)
+  @JoinTable()
+  favoriteRestaurants: Restaurant[];
+
+  @ManyToMany(() => Dish)
+  @JoinTable()
+  favoriteDishes: Dish[];
+
+  @ManyToMany(() => Landmark)
+  @JoinTable()
+  favoriteLandmarks: Landmark[];
 }

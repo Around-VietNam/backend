@@ -1,7 +1,8 @@
 import { BaseEntity } from 'src/utils/entity/base-entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { DishFeedback } from './feedback.entity';
 import { Restaurant } from 'src/modules/restaurants/entities/restaurant.entity';
+import { User } from 'src/modules/users/entities/user.entity';
 
 @Entity('dish')
 export class Dish extends BaseEntity {
@@ -25,4 +26,7 @@ export class Dish extends BaseEntity {
 
   @ManyToOne(() => Restaurant, (restaurant) => restaurant.dishes)
   restaurant: Restaurant;
+
+  @ManyToMany(() => User, (user) => user.favoriteDishes)
+  users: User[];
 }
