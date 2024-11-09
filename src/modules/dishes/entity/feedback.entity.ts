@@ -13,4 +13,7 @@ export class Dish extends BaseEntity {
 
   @Column({ nullable: false })
   comment: string;
+
+  @Column({ nullable: true })
+  image: string;
 }
