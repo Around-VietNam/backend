@@ -19,6 +19,12 @@ export class Restaurant extends BaseEntity {
   @Column()
   address: string;
 
+  @Column({ nullable: true, type: 'decimal', precision: 9, scale: 6 })
+  latitude: number;
+
+  @Column({ nullable: true, type: 'decimal', precision: 9, scale: 6 })
+  longitude: number;
+
   @Column()
   rating: number;
 
