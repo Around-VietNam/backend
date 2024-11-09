@@ -1,10 +1,10 @@
 import { User } from 'src/modules/users/entities/user.entity';
 import { BaseEntity } from 'src/utils/entity/base-entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { Dish } from './dish.entity';
+import { Restaurant } from './entity/restaurant.entity';
 
-@Entity('dish_feedback')
-export class DishFeedback extends BaseEntity {
+@Entity('restaurant_feedback')
+export class RestaurantFeedBack extends BaseEntity {
   @ManyToOne(() => User)
   user: User;
 
@@ -14,6 +14,9 @@ export class DishFeedback extends BaseEntity {
   @Column({ nullable: true })
   image: string;
 
-  @ManyToOne(() => Dish, (dish) => dish.feedbacks)
-  dish: Dish;
+  @Column({ nullable: true })
+  rating: number;
+
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.feedbacks)
+  restaurant: Restaurant;
 }
