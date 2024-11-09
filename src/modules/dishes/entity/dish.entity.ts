@@ -2,7 +2,7 @@ import { BaseEntity } from 'src/utils/entity/base-entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity('dish')
-export class User extends BaseEntity {
+export class DishFeedback extends BaseEntity {
   @Column({ nullable: false })
   @Index({ unique: true })
   name: string;
