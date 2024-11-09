@@ -1,7 +1,7 @@
 import { User } from 'src/modules/users/entities/user.entity';
 import { BaseEntity } from 'src/utils/entity/base-entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { Restaurant } from './entity/restaurant.entity';
+import { Restaurant } from './restaurant.entity';
 
 @Entity('restaurant_feedback')
 export class RestaurantFeedBack extends BaseEntity {

@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/utils/entity/base-entity';
 import { Column, Entity, Index, OneToMany } from 'typeorm';
-import { RestaurantFeedBack } from '../feedback.entity';
+import { RestaurantFeedBack } from './feedback.entity';
 
 @Entity('restaurant')
 export class Restaurant extends BaseEntity {
