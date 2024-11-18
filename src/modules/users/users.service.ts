@@ -27,16 +27,16 @@ export class UsersService
     this.logger.log('Init UsersService');
   }
 
-  async findByUserName(user_name: string): Promise<User> {
-    return this.repository.findOneBy({ user_name });
+  async findByUserName(username: string): Promise<User> {
+    return this.repository.findOneBy({ username });
   }
 
   async create(dto: CreateUsersDto): Promise<User> {
-    const existUser = await this.findByUserName(dto.user_name);
+    const existUser = await this.findByUserName(dto.username);
 
     if (existUser) {
       throw new BadRequestException({
-        message: `User with user name ${dto.user_name} already exists`,
+        message: `User with user name ${dto.username} already exists`,
       });
     }
 
