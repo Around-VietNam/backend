@@ -38,7 +38,7 @@ async function bootstrap() {
   app.useLogger(new Logger('[APP]'));
   const logger = new Logger('[APP]');
 
-  app.setGlobalPrefix('api');
+  // app.setGlobalPrefix('api');
   setMiddleware(app);
 
   if (process.env.NODE_ENV !== 'production') {
