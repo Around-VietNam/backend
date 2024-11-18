@@ -13,7 +13,7 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRoot(dataSource.options), // Kết nối database
     DishesModule, // Đăng ký DishesModule
     AuthModule,
-
+    UsersModule,
   ],
 })
 export class AppModule { }
