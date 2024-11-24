@@ -8,7 +8,7 @@ import {
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUsersDto } from './dto/upsert-users.dto';
+import { CreateUsersDto, UpdateUserDto } from './dto/upsert-users.dto';
 
 @Injectable()
 export class UsersService
@@ -41,6 +41,27 @@ export class UsersService
     }
 
     const user = this.repository.create(dto);
+    await user.save({ reload: true });
+    return user;
+  }
+
+  async updateUser(username: string, dto: UpdateUserDto): Promise<User> {
+    const user = await this.findByUserName(username);
+
+    if (!user) {
+      throw new BadRequestException({
+        message: `User with user name ${username} not found`,
+      });
+    }
+
+    user.name = dto.name;
+    user.email = dto.email;
+    user.gender = dto.gender;
+    user.date_of_birth = dto.date_of_birth;
+    user.location = dto.location;
+    user.avt = dto.avt;
+    user.hash_password = dto.hash_password;
+
     await user.save({ reload: true });
     return user;
   }
