@@ -13,7 +13,7 @@ export class UsersController {
   @ApiResponse({
     status: 201,
     type: UserResponseDto,
-    description: 'User Info',
+    description: 'Create User',
   })
   @Post()
   async createUser(@Body() dto: CreateUsersDto): Promise<User> {
