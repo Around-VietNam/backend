@@ -15,6 +15,8 @@ import { Restaurant } from './entities/restaurant.entity';
 import { RestaurantFeedbacksService } from './restaurant-feedbacks.service';
 import { GetManyRestaurantFeedbacksResponseDto } from './dto/response-restaurant-feedbacks.dto';
 import { QueryRestaurantFeedbacksDto } from './dto/query-restaurant-feedbacks.dto';
+import { CreateRestaurantFeedBacksDto } from './dto/upsert-restaurant-feedbacks.dto';
+import { RestaurantFeedback } from './entities/feedback.entity';
 
 @ApiTags('Restaurants')
 @Controller('restaurants')
@@ -75,5 +77,18 @@ export class RestaurantsController {
     @Query() query: QueryRestaurantFeedbacksDto,
   ): Promise<GetManyRestaurantFeedbacksResponseDto> {
     return this.restaurantFeedbackService.getFeedbacksByRestaurantId(id, query);
+  }
+
+  @ApiResponse({
+    status: 201,
+    type: RestaurantFeedback,
+    description: 'Create a new feedback for a restaurant',
+  })
+  @Post(':id/feedbacks')
+  async createFeedback(
+    @Param('id') id: number,
+    @Body() dto: CreateRestaurantFeedBacksDto,
+  ): Promise<RestaurantFeedback> {
+    return this.restaurantFeedbackService.createFeedback(id, dto);
   }
 }

@@ -5,10 +5,13 @@ import { Repository } from 'typeorm';
 import { RestaurantFeedback } from './entities/feedback.entity';
 import {
   GetManyRestaurantFeedbacksResponseDto,
-  RestaurantFeedbackResponseDto,
+  RestaurantFeedbacksResponseDto,
 } from './dto/response-restaurant-feedbacks.dto';
 import { paginateData } from 'src/common/dtos';
 import { QueryRestaurantFeedbacksDto } from './dto/query-restaurant-feedbacks.dto';
+import { Restaurant } from './entities/restaurant.entity';
+import { User } from '../users/entities/user.entity';
+import { CreateRestaurantFeedBacksDto } from './dto/upsert-restaurant-feedbacks.dto';
 
 @Injectable()
 export class RestaurantFeedbacksService
@@ -19,6 +22,10 @@ export class RestaurantFeedbacksService
   constructor(
     @InjectRepository(RestaurantFeedback)
     public repository: Repository<RestaurantFeedback>,
+    @InjectRepository(Restaurant)
+    private readonly restaurantRepository: Repository<Restaurant>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {
     super(repository);
   }
@@ -29,7 +36,7 @@ export class RestaurantFeedbacksService
 
   private async convertFeedbackToDto(
     feedback: RestaurantFeedback,
-  ): Promise<RestaurantFeedbackResponseDto> {
+  ): Promise<RestaurantFeedbacksResponseDto> {
     return {
       id: feedback.id,
       create_at: feedback.created_at,
@@ -63,5 +70,34 @@ export class RestaurantFeedbacksService
       this.logger.error(error);
       throw error;
     }
+  }
+
+  async createFeedback(
+    restaurantId: number,
+    dto: CreateRestaurantFeedBacksDto,
+  ): Promise<RestaurantFeedback> {
+    const restaurant = await this.restaurantRepository.findOneBy({
+      id: restaurantId,
+    });
+    if (!restaurant) {
+      throw new Error('Restaurant not found');
+    }
+
+    const user = await this.userRepository.findOneBy({
+      username: dto.username,
+    });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const feedback = new RestaurantFeedback();
+    feedback.comment = dto.comment;
+    feedback.rating = dto.rating;
+    feedback.image = dto.image;
+    feedback.user = user;
+    feedback.restaurant = restaurant;
+
+    await this.repository.save(feedback);
+    return feedback;
   }
 }

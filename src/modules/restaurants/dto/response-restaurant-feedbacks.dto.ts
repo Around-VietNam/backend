@@ -2,7 +2,7 @@ import { ApiProperty, ApiResponseProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { GetManyResponse } from 'src/common/dtos';
 
-export class RestaurantFeedbackResponseDto {
+export class RestaurantFeedbacksResponseDto {
   @ApiResponseProperty()
   id: number;
 
@@ -25,8 +25,8 @@ export class RestaurantFeedbackResponseDto {
   rating: number;
 }
 
-export class GetManyRestaurantFeedbacksResponseDto extends GetManyResponse<RestaurantFeedbackResponseDto> {
-  @ApiProperty({ type: RestaurantFeedbackResponseDto, isArray: true })
-  @Type(() => RestaurantFeedbackResponseDto)
-  data: RestaurantFeedbackResponseDto[];
+export class GetManyRestaurantFeedbacksResponseDto extends GetManyResponse<RestaurantFeedbacksResponseDto> {
+  @ApiProperty({ type: RestaurantFeedbacksResponseDto, isArray: true })
+  @Type(() => RestaurantFeedbacksResponseDto)
+  data: RestaurantFeedbacksResponseDto[];
 }
