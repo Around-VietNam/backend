@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -15,7 +16,10 @@ import { Restaurant } from './entities/restaurant.entity';
 import { RestaurantFeedbacksService } from './restaurant-feedbacks.service';
 import { GetManyRestaurantFeedbacksResponseDto } from './dto/response-restaurant-feedbacks.dto';
 import { QueryRestaurantFeedbacksDto } from './dto/query-restaurant-feedbacks.dto';
-import { CreateRestaurantFeedBacksDto } from './dto/upsert-restaurant-feedbacks.dto';
+import {
+  CreateRestaurantFeedBacksDto,
+  UpdateRestaurantFeedbacksDto,
+} from './dto/upsert-restaurant-feedbacks.dto';
 import { RestaurantFeedback } from './entities/feedback.entity';
 
 @ApiTags('Restaurants')
@@ -90,5 +94,18 @@ export class RestaurantsController {
     @Body() dto: CreateRestaurantFeedBacksDto,
   ): Promise<RestaurantFeedback> {
     return this.restaurantFeedbackService.createFeedback(id, dto);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: RestaurantFeedback,
+    description: 'Update feedback for a restaurant',
+  })
+  @Put('feedbacks/:feedbackId')
+  async updateFeedback(
+    @Param('feedbackId') feedbackId: number,
+    @Body() dto: UpdateRestaurantFeedbacksDto,
+  ): Promise<RestaurantFeedback> {
+    return this.restaurantFeedbackService.updateFeedback(feedbackId, dto);
   }
 }

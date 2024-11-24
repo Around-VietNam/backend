@@ -11,7 +11,10 @@ import { paginateData } from 'src/common/dtos';
 import { QueryRestaurantFeedbacksDto } from './dto/query-restaurant-feedbacks.dto';
 import { Restaurant } from './entities/restaurant.entity';
 import { User } from '../users/entities/user.entity';
-import { CreateRestaurantFeedBacksDto } from './dto/upsert-restaurant-feedbacks.dto';
+import {
+  CreateRestaurantFeedBacksDto,
+  UpdateRestaurantFeedbacksDto,
+} from './dto/upsert-restaurant-feedbacks.dto';
 
 @Injectable()
 export class RestaurantFeedbacksService
@@ -98,6 +101,25 @@ export class RestaurantFeedbacksService
     feedback.restaurant = restaurant;
 
     await this.repository.save(feedback);
+    return feedback;
+  }
+
+  async updateFeedback(
+    feedbackId: number,
+    dto: UpdateRestaurantFeedbacksDto,
+  ): Promise<RestaurantFeedback> {
+    const feedback = await this.repository.findOneBy({
+      id: feedbackId,
+    });
+    if (!feedback) {
+      throw new Error('Feedback not found');
+    }
+
+    feedback.comment = dto.comment;
+    feedback.rating = dto.rating;
+    feedback.image = dto.image;
+
+    await feedback.save({ reload: true });
     return feedback;
   }
 }
