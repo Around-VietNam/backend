@@ -1,4 +1,5 @@
 import { ApiProperty } from '@dataui/crud/lib/crud';
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateRestaurantFeedbacksDto {
@@ -12,9 +13,9 @@ export class UpdateRestaurantFeedbacksDto {
   @ApiProperty({ type: String })
   image: string;
 
-  @IsString()
-  @IsNotEmpty()
   @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  @Type(() => Number)
   rating: number;
 }
 
