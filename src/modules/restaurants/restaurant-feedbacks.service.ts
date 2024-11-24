@@ -42,13 +42,14 @@ export class RestaurantFeedbacksService
   }
 
   async getFeedbacksByRestaurantId(
+    restaurantId: number,
     query: QueryRestaurantFeedbacksDto,
   ): Promise<GetManyRestaurantFeedbacksResponseDto> {
     try {
       const feedbacks = await this.repository.find({
         where: {
           restaurant: {
-            id: query.restaurantId,
+            id: restaurantId,
           },
         },
         relations: ['user'],

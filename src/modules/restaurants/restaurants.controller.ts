@@ -71,8 +71,9 @@ export class RestaurantsController {
   })
   @Get(':id/feedbacks')
   async getFeedbacksByRestaurantId(
+    @Param('id') id: number,
     @Query() query: QueryRestaurantFeedbacksDto,
   ): Promise<GetManyRestaurantFeedbacksResponseDto> {
-    return this.restaurantFeedbackService.getFeedbacksByRestaurantId(query);
+    return this.restaurantFeedbackService.getFeedbacksByRestaurantId(id, query);
   }
 }

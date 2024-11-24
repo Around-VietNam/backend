@@ -3,10 +3,6 @@ import { Type } from 'class-transformer';
 import { IsOptional } from 'class-validator';
 
 export class QueryRestaurantFeedbacksDto {
-  @ApiProperty({ type: Number, required: true })
-  @Type(() => Number)
-  restaurantId: number;
-
   @ApiProperty({ type: Number, required: false })
   @IsOptional()
   @Type(() => Number)
