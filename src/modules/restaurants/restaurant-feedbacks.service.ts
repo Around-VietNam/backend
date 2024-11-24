@@ -122,4 +122,15 @@ export class RestaurantFeedbacksService
     await feedback.save({ reload: true });
     return feedback;
   }
+
+  async deleteFeedback(feedbackId: number): Promise<void> {
+    const feedback = await this.repository.findOneBy({
+      id: feedbackId,
+    });
+    if (!feedback) {
+      throw new Error('Feedback not found');
+    }
+
+    await feedback.remove();
+  }
 }

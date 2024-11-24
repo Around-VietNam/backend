@@ -108,4 +108,9 @@ export class RestaurantsController {
   ): Promise<RestaurantFeedback> {
     return this.restaurantFeedbackService.updateFeedback(feedbackId, dto);
   }
+
+  @Delete('feedbacks/:feedbackId')
+  async deleteFeedback(@Param('feedbackId') feedbackId: number): Promise<void> {
+    return this.restaurantFeedbackService.deleteFeedback(feedbackId);
+  }
 }
