@@ -26,6 +26,10 @@ export class RestaurantsService
     return this.repository.findOneBy({ name });
   }
 
+  async getRestaurantById(id: number): Promise<Restaurant> {
+    return this.repository.findOneBy({ id });
+  }
+
   async create(dto: UpsertRestaurantsDto): Promise<Restaurant> {
     const existRestaurant = await this.getRestaurantByName(dto.name);
     if (existRestaurant) {

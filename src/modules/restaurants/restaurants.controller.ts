@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RestaurantsService } from './restaurants.service';
 import { RestaurantsResponseDto } from './dto/response-restaurants.dto';
@@ -20,5 +20,15 @@ export class RestaurantsController {
     @Body() dto: UpsertRestaurantsDto,
   ): Promise<Restaurant> {
     return this.service.create(dto);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: RestaurantsResponseDto,
+    description: 'Get restaurant details',
+  })
+  @Get(':id')
+  async getRestaurant(@Param('id') id: number): Promise<Restaurant> {
+    return this.service.getRestaurantById(id);
   }
 }
