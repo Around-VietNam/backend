@@ -14,7 +14,7 @@ export class LandmarkFeedback extends BaseEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ nullable: true, type: 'decimal', precision: 2, scale: 1 })
+  @Column({ nullable: true, type: 'decimal', precision: 2, scale: 5 })
   rating: number;
 
   @ManyToOne(() => Landmark, (landmark) => landmark.feedbacks, {
