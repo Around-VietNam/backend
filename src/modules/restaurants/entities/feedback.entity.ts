@@ -18,7 +18,7 @@ export class RestaurantFeedback extends BaseEntity {
     nullable: true,
     type: 'decimal',
     precision: 2,
-    scale: 1,
+    scale: 5,
     default: 0,
   })
   rating: number;
