@@ -1,9 +1,18 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserResponseDto } from './dto/response-users.dto';
 import { CreateUsersDto, UpdateUserDto } from './dto/upsert-users.dto';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
+import { GetManyFavoriteRestaurantsResponseDto } from '../restaurants/dto/response-restaurants.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -41,5 +50,33 @@ export class UsersController {
     @Body() dto: UpdateUserDto,
   ): Promise<User> {
     return this.service.updateUser(username, dto);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: GetManyFavoriteRestaurantsResponseDto,
+    description: 'Get all favorite restaurants',
+  })
+  @Get(':username/favorite-restaurants')
+  async getFavoriteRestaurants(
+    @Param('username') username: string,
+  ): Promise<GetManyFavoriteRestaurantsResponseDto> {
+    return this.service.getFavoriteRestaurants(username);
+  }
+
+  @Post(':username/favorite-restaurants/:restaurantId')
+  async addFavoriteRestaurant(
+    @Param('username') username: string,
+    @Param('restaurantId') restaurantId: number,
+  ): Promise<void> {
+    return this.service.addFavoriteRestaurant(username, restaurantId);
+  }
+
+  @Delete(':username/favorite-restaurants/:restaurantId')
+  async removeFavoriteRestaurant(
+    @Param('username') username: string,
+    @Param('restaurantId') restaurantId: number,
+  ): Promise<void> {
+    return this.service.removeFavoriteRestaurant(username, restaurantId);
   }
 }

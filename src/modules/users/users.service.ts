@@ -9,6 +9,11 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUsersDto, UpdateUserDto } from './dto/upsert-users.dto';
+import { Restaurant } from '../restaurants/entities/restaurant.entity';
+import {
+  FavoriteRestaurantsResponseDto,
+  GetManyFavoriteRestaurantsResponseDto,
+} from '../restaurants/dto/response-restaurants.dto';
 
 @Injectable()
 export class UsersService
@@ -19,6 +24,8 @@ export class UsersService
   constructor(
     @InjectRepository(User)
     public repository: Repository<User>,
+    @InjectRepository(Restaurant)
+    private readonly restaurantRepository: Repository<Restaurant>,
   ) {
     super(repository);
   }
@@ -28,7 +35,10 @@ export class UsersService
   }
 
   async findByUserName(username: string): Promise<User> {
-    return this.repository.findOneBy({ username });
+    return await this.repository.findOne({
+      where: { username },
+      relations: ['favoriteRestaurants'],
+    });
   }
 
   async create(dto: CreateUsersDto): Promise<User> {
@@ -64,5 +74,89 @@ export class UsersService
 
     await user.save({ reload: true });
     return user;
+  }
+
+  private async convertFavoriteRestaurantsToDto(
+    restaurant: Restaurant,
+  ): Promise<FavoriteRestaurantsResponseDto> {
+    return {
+      id: restaurant.id,
+      name: restaurant.name,
+      image: restaurant.image,
+      description: restaurant.description,
+      address: restaurant.address,
+      phone: restaurant.phone,
+      website: restaurant.website,
+      rating: restaurant.rating,
+    };
+  }
+
+  async getFavoriteRestaurants(
+    username: string,
+  ): Promise<GetManyFavoriteRestaurantsResponseDto> {
+    try {
+      const user = await this.findByUserName(username);
+      const data = await Promise.all(
+        user.favoriteRestaurants.map((favoriteRestaurant) =>
+          this.convertFavoriteRestaurantsToDto(favoriteRestaurant),
+        ),
+      );
+      return {
+        data,
+      };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+  async addFavoriteRestaurant(
+    username: string,
+    restaurantId: number,
+  ): Promise<void> {
+    const user = await this.findByUserName(username);
+    if (!user) {
+      throw new BadRequestException({
+        message: `User with user name ${username} not found`,
+      });
+    }
+
+    const restaurant = await this.restaurantRepository.findOneBy({
+      id: restaurantId,
+    });
+    if (!restaurant) {
+      throw new BadRequestException({
+        message: `Restaurant with id ${restaurantId} not found`,
+      });
+    }
+
+    user.favoriteRestaurants.push(restaurant);
+    await user.save({ reload: true });
+  }
+
+  async removeFavoriteRestaurant(
+    username: string,
+    restaurantId: number,
+  ): Promise<void> {
+    const user = await this.findByUserName(username);
+    if (!user) {
+      throw new BadRequestException({
+        message: `User with user name ${username} not found`,
+      });
+    }
+
+    const restaurant = await this.restaurantRepository.findOneBy({
+      id: restaurantId,
+    });
+    if (!restaurant) {
+      throw new BadRequestException({
+        message: `Restaurant with id ${restaurantId} not found`,
+      });
+    }
+
+    user.favoriteRestaurants = user.favoriteRestaurants.filter(
+      (favoriteRestaurant) => favoriteRestaurant.id !== restaurantId,
+    );
+    await user.save({ reload: true });
   }
 }
