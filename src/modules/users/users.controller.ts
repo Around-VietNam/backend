@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserResponseDto } from './dto/response-users.dto';
 import { CreateUsersDto, UpdateUserDto } from './dto/upsert-users.dto';
@@ -62,5 +70,13 @@ export class UsersController {
     @Param('restaurantId') restaurantId: number,
   ): Promise<void> {
     return this.service.addFavoriteRestaurant(username, restaurantId);
+  }
+
+  @Delete(':username/favorite-restaurants/:restaurantId')
+  async removeFavoriteRestaurant(
+    @Param('username') username: string,
+    @Param('restaurantId') restaurantId: number,
+  ): Promise<void> {
+    return this.service.removeFavoriteRestaurant(username, restaurantId);
   }
 }
