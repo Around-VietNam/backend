@@ -5,7 +5,7 @@ import { Landmark } from './landmark.entity';
 
 @Entity('landmark_feedback')
 export class LandmarkFeedback extends BaseEntity {
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: false })
   user: User;
 
   @Column({ nullable: false })
@@ -14,9 +14,11 @@ export class LandmarkFeedback extends BaseEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal', precision: 2, scale: 1 })
   rating: number;
 
-  @ManyToOne(() => Landmark, (landmark) => landmark.feedbacks)
+  @ManyToOne(() => Landmark, (landmark) => landmark.feedbacks, {
+    nullable: false,
+  })
   landmark: Landmark;
 }
