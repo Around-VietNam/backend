@@ -133,4 +133,30 @@ export class UsersService
     user.favoriteRestaurants.push(restaurant);
     await user.save({ reload: true });
   }
+
+  async removeFavoriteRestaurant(
+    username: string,
+    restaurantId: number,
+  ): Promise<void> {
+    const user = await this.findByUserName(username);
+    if (!user) {
+      throw new BadRequestException({
+        message: `User with user name ${username} not found`,
+      });
+    }
+
+    const restaurant = await this.restaurantRepository.findOneBy({
+      id: restaurantId,
+    });
+    if (!restaurant) {
+      throw new BadRequestException({
+        message: `Restaurant with id ${restaurantId} not found`,
+      });
+    }
+
+    user.favoriteRestaurants = user.favoriteRestaurants.filter(
+      (favoriteRestaurant) => favoriteRestaurant.id !== restaurantId,
+    );
+    await user.save({ reload: true });
+  }
 }
