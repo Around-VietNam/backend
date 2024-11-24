@@ -40,4 +40,25 @@ export class RestaurantsService
     await restaurant.save({ reload: true });
     return restaurant;
   }
+
+  async updateRestaurant(
+    id: number,
+    dto: UpsertRestaurantsDto,
+  ): Promise<Restaurant> {
+    const restaurant = await this.getRestaurantById(id);
+    if (!restaurant) {
+      throw new Error('Restaurant not found');
+    }
+
+    restaurant.name = dto.name;
+    restaurant.description = dto.description;
+    restaurant.image = dto.image;
+    restaurant.address = dto.address;
+    restaurant.latitude = dto.latitude;
+    restaurant.longitude = dto.longitude;
+    restaurant.phone = dto.phone;
+    restaurant.website = dto.website;
+    await restaurant.save({ reload: true });
+    return restaurant;
+  }
 }

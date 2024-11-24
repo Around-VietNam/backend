@@ -31,4 +31,17 @@ export class RestaurantsController {
   async getRestaurant(@Param('id') id: number): Promise<Restaurant> {
     return this.service.getRestaurantById(id);
   }
+
+  @ApiResponse({
+    status: 200,
+    type: RestaurantsResponseDto,
+    description: 'Update restaurant details',
+  })
+  @Post(':id')
+  async updateRestaurant(
+    @Param('id') id: number,
+    @Body() dto: UpsertRestaurantsDto,
+  ): Promise<Restaurant> {
+    return this.service.updateRestaurant(id, dto);
+  }
 }
