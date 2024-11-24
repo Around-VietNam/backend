@@ -43,7 +43,7 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV !== 'production') {
     const swaggerConfig = new DocumentBuilder()
-      .setTitle('Hybrid Launchpad API')
+      .setTitle('Around Vietnam API')
       .build();
 
     const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
