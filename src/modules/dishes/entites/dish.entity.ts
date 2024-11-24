@@ -1,5 +1,12 @@
 import { BaseEntity } from 'src/utils/entity/base-entity';
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  JoinTable,
+} from 'typeorm';
 import { DishFeedback } from './feedback.entity';
 import { Restaurant } from 'src/modules/restaurants/entities/restaurant.entity';
 import { User } from 'src/modules/users/entities/user.entity';
@@ -9,7 +16,7 @@ export class Dish extends BaseEntity {
   @Column({ nullable: false })
   name: string;
 
-  @Column()
+  @Column({ nullable: false })
   description: string;
 
   @Column({ nullable: false })
@@ -21,12 +28,16 @@ export class Dish extends BaseEntity {
   @Column({ type: 'boolean', default: true })
   special: boolean;
 
-  @OneToMany(() => DishFeedback, (feedback) => feedback.dish)
+  @OneToMany(() => DishFeedback, (feedback) => feedback.dish, { cascade: true })
   feedbacks: DishFeedback[];
 
-  @ManyToOne(() => Restaurant, (restaurant) => restaurant.dishes)
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.dishes, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   restaurant: Restaurant;
 
   @ManyToMany(() => User, (user) => user.favoriteDishes)
+  @JoinTable()
   users: User[];
 }
