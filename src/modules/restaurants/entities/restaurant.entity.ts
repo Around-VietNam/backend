@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/utils/entity/base-entity';
 import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
-import { RestaurantFeedBack } from './feedback.entity';
+import { RestaurantFeedback } from './feedback.entity';
 import { Dish } from 'src/modules/dishes/entites/dish.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 
@@ -10,13 +10,13 @@ export class Restaurant extends BaseEntity {
   @Index({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Column({ nullable: false })
   image: string;
 
-  @Column()
+  @Column({ nullable: false })
   address: string;
 
   @Column({ nullable: true, type: 'decimal', precision: 9, scale: 6 })
@@ -25,7 +25,13 @@ export class Restaurant extends BaseEntity {
   @Column({ nullable: true, type: 'decimal', precision: 9, scale: 6 })
   longitude: number;
 
-  @Column()
+  @Column({
+    nullable: true,
+    type: 'decimal',
+    precision: 2,
+    scale: 1,
+    default: 0,
+  })
   rating: number;
 
   @Column({ nullable: true })
@@ -34,12 +40,12 @@ export class Restaurant extends BaseEntity {
   @Column({ nullable: true })
   website: string;
 
-  @OneToMany(() => RestaurantFeedBack, (feedback) => feedback.restaurant)
-  feedbacks: RestaurantFeedBack[];
+  @OneToMany(() => RestaurantFeedback, (feedback) => feedback.restaurant)
+  feedbacks: RestaurantFeedback[];
 
   @OneToMany(() => Dish, (dish) => dish.restaurant)
   dishes: Dish[];
 
-  @ManyToOne(() => User, (user) => user.favoriteRestaurants)
-  users: User[];
+  @ManyToOne(() => User, (user) => user.favoriteRestaurants, { nullable: true })
+  owner: User;
 }

@@ -5,15 +5,18 @@ import { Dish } from './dish.entity';
 
 @Entity('dish_feedback')
 export class DishFeedback extends BaseEntity {
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: false, onDelete: 'CASCADE' })
   user: User;
 
   @Column({ nullable: false })
   comment: string;
 
   @Column({ nullable: true })
-  image: string;
+  image?: string;
 
-  @ManyToOne(() => Dish, (dish) => dish.feedbacks)
+  @ManyToOne(() => Dish, (dish) => dish.feedbacks, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   dish: Dish;
 }
