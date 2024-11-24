@@ -27,7 +27,11 @@ export class RestaurantsService
   }
 
   async getRestaurantById(id: number): Promise<Restaurant> {
-    return this.repository.findOneBy({ id });
+    const restaurant = await this.repository.findOneBy({ id });
+    if (!restaurant) {
+      throw new Error('Restaurant not found');
+    }
+    return restaurant;
   }
 
   async create(dto: UpsertRestaurantsDto): Promise<Restaurant> {
@@ -60,5 +64,14 @@ export class RestaurantsService
     restaurant.website = dto.website;
     await restaurant.save({ reload: true });
     return restaurant;
+  }
+
+  async deleteRestaurant(id: number): Promise<void> {
+    const restaurant = await this.getRestaurantById(id);
+    if (!restaurant) {
+      throw new Error('Restaurant not found');
+    }
+
+    await restaurant.remove();
   }
 }

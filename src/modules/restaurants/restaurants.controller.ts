@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RestaurantsService } from './restaurants.service';
 import { RestaurantsResponseDto } from './dto/response-restaurants.dto';
@@ -43,5 +43,10 @@ export class RestaurantsController {
     @Body() dto: UpsertRestaurantsDto,
   ): Promise<Restaurant> {
     return this.service.updateRestaurant(id, dto);
+  }
+
+  @Delete(':id')
+  async deleteRestaurant(@Param('id') id: number): Promise<void> {
+    return this.service.deleteRestaurant(id);
   }
 }
