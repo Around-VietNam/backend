@@ -1,14 +1,28 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RestaurantsService } from './restaurants.service';
 import { RestaurantsResponseDto } from './dto/response-restaurants.dto';
-import { UpsertRestaurantsDto } from './dto/upsert-restautrants.dto';
+import { UpsertRestaurantsDto } from './dto/upsert-restaurants.dto';
 import { Restaurant } from './entities/restaurant.entity';
+import { RestaurantFeedbacksService } from './restaurant-feedbacks.service';
+import { GetManyRestaurantFeedbacksResponseDto } from './dto/response-restaurant-feedbacks.dto';
+import { QueryRestaurantFeedbacksDto } from './dto/query-restaurant-feedbacks.dto';
 
 @ApiTags('Restaurants')
 @Controller('restaurants')
 export class RestaurantsController {
-  constructor(public service: RestaurantsService) {}
+  constructor(
+    public restaurantService: RestaurantsService,
+    public restaurantFeedbackService: RestaurantFeedbacksService,
+  ) {}
 
   @ApiResponse({
     status: 201,
@@ -19,7 +33,7 @@ export class RestaurantsController {
   async createRestaurant(
     @Body() dto: UpsertRestaurantsDto,
   ): Promise<Restaurant> {
-    return this.service.create(dto);
+    return this.restaurantService.create(dto);
   }
 
   @ApiResponse({
@@ -29,7 +43,7 @@ export class RestaurantsController {
   })
   @Get(':id')
   async getRestaurant(@Param('id') id: number): Promise<Restaurant> {
-    return this.service.getRestaurantById(id);
+    return this.restaurantService.getRestaurantById(id);
   }
 
   @ApiResponse({
@@ -42,11 +56,23 @@ export class RestaurantsController {
     @Param('id') id: number,
     @Body() dto: UpsertRestaurantsDto,
   ): Promise<Restaurant> {
-    return this.service.updateRestaurant(id, dto);
+    return this.restaurantService.updateRestaurant(id, dto);
   }
 
   @Delete(':id')
   async deleteRestaurant(@Param('id') id: number): Promise<void> {
-    return this.service.deleteRestaurant(id);
+    return this.restaurantService.deleteRestaurant(id);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: GetManyRestaurantFeedbacksResponseDto,
+    description: 'Get restaurant feedbacks',
+  })
+  @Get(':id/feedbacks')
+  async getFeedbacksByRestaurantId(
+    @Query() query: QueryRestaurantFeedbacksDto,
+  ): Promise<GetManyRestaurantFeedbacksResponseDto> {
+    return this.restaurantFeedbackService.getFeedbacksByRestaurantId(query);
   }
 }
