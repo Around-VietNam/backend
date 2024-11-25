@@ -17,7 +17,7 @@ export class RestaurantFeedback extends BaseEntity {
   @Column({
     nullable: true,
     type: 'decimal',
-    precision: 2,
+    precision: 5,
     scale: 5,
     default: 0,
   })
@@ -25,6 +25,7 @@ export class RestaurantFeedback extends BaseEntity {
 
   @ManyToOne(() => Restaurant, (restaurant) => restaurant.feedbacks, {
     nullable: false,
+    onDelete: 'CASCADE',
   })
   restaurant: Restaurant;
 }
