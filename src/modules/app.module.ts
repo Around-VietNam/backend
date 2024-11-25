@@ -5,15 +5,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import dataSource from 'src/libs/typeORM.config'; // Cấu hình TypeORM
 import { DishesModule } from './dishes/dishes.module'; // Import DishesModule
 import { AuthModule } from './auth/auth.module';
+import { RestaurantsModule } from './restaurants/restaurants.module';
+import { UsersModule } from './users/users.module';
+
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
-    TypeOrmModule.forRoot(dataSource.options), // Kết nối database
-    DishesModule, // Đăng ký DishesModule
+    TypeOrmModule.forRoot(dataSource.options),
+    DishesModule,
     AuthModule,
     UsersModule,
+
+    RestaurantsModule,
   ],
 })
 export class AppModule { }
