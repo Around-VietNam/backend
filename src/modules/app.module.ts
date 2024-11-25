@@ -7,7 +7,7 @@ import { DishesModule } from './dishes/dishes.module'; // Import DishesModule
 import { AuthModule } from './auth/auth.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { UsersModule } from './users/users.module';
-
+import { RestaurantsModule } from './restaurants/restaurants.module';
 
 @Module({
   imports: [
@@ -17,7 +17,6 @@ import { UsersModule } from './users/users.module';
     DishesModule,
     AuthModule,
     UsersModule,
-
     RestaurantsModule,
   ],
 })
