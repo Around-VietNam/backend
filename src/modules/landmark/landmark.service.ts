@@ -62,4 +62,13 @@ export class LandmarksService
     await landmark.save({ reload: true });
     return landmark;
   }
+
+  async deleteLandmark(id: number): Promise<void> {
+    const landmark = await this.getLandmarkById(id);
+    if (!landmark) {
+      throw new Error('Landmark not found');
+    }
+
+    await landmark.remove();
+  }
 }

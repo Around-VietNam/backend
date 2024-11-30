@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LandmarksService } from './landmark.service';
 import { LandmarksResponseDto } from './dtos/response-landmarks.dto';
@@ -41,5 +41,10 @@ export class LandmarksController {
     @Body() dto: UpsertLandmarksDto,
   ): Promise<Landmark> {
     return this.landmarkService.updateLandmark(id, dto);
+  }
+
+  @Delete(':id')
+  async deleteLandmark(@Param('id') id: number): Promise<void> {
+    return this.landmarkService.deleteLandmark(id);
   }
 }
