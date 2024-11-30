@@ -44,4 +44,22 @@ export class LandmarksService
     await landmark.save({ reload: true });
     return landmark;
   }
+
+  async updateLandmark(id: number, dto: UpsertLandmarksDto): Promise<Landmark> {
+    const landmark = await this.getLandmarkById(id);
+    if (!landmark) {
+      throw new Error('Landmark not found');
+    }
+
+    landmark.name = dto.name;
+    landmark.description = dto.description;
+    landmark.image = dto.image;
+    landmark.address = dto.address;
+    landmark.latitude = dto.latitude;
+    landmark.longitude = dto.longitude;
+    landmark.phone = dto.phone;
+    landmark.website = dto.website;
+    await landmark.save({ reload: true });
+    return landmark;
+  }
 }

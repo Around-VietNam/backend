@@ -29,4 +29,17 @@ export class LandmarksController {
   async getRestaurant(@Param('id') id: number): Promise<Landmark> {
     return this.landmarkService.getLandmarkById(id);
   }
+
+  @ApiResponse({
+    status: 200,
+    type: LandmarksResponseDto,
+    description: 'Update landmark details',
+  })
+  @Post(':id')
+  async updateLandmark(
+    @Param('id') id: number,
+    @Body() dto: UpsertLandmarksDto,
+  ): Promise<Landmark> {
+    return this.landmarkService.updateLandmark(id, dto);
+  }
 }
