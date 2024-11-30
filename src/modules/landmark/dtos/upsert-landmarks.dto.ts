@@ -2,7 +2,7 @@ import { ApiProperty } from '@dataui/crud/lib/crud';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class UpsertLandmarkDto {
+export class UpsertLandmarksDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ type: String })

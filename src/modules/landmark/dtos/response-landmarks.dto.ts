@@ -5,7 +5,7 @@ import {
 } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
-export class LandmarkResponseDto {
+export class LandmarksResponseDto {
   @ApiResponseProperty({ type: Number })
   id: number;
 
