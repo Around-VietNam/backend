@@ -8,12 +8,12 @@ import {
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUsersDto, UpdateUserDto } from './dto/upsert-users.dto';
+import { CreateUsersDto, UpdateUserDto } from './dtos/upsert-users.dto';
 import { Restaurant } from '../restaurants/entities/restaurant.entity';
 import {
   FavoriteRestaurantsResponseDto,
   GetManyFavoriteRestaurantsResponseDto,
-} from '../restaurants/dto/response-restaurants.dto';
+} from '../restaurants/dtos/response-restaurants.dto';
 
 @Injectable()
 export class UsersService

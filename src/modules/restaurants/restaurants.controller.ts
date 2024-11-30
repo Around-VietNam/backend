@@ -10,16 +10,16 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RestaurantsService } from './restaurants.service';
-import { RestaurantsResponseDto } from './dto/response-restaurants.dto';
-import { UpsertRestaurantsDto } from './dto/upsert-restaurants.dto';
+import { RestaurantsResponseDto } from './dtos/response-restaurants.dto';
+import { UpsertRestaurantsDto } from './dtos/upsert-restaurants.dto';
 import { Restaurant } from './entities/restaurant.entity';
 import { RestaurantFeedbacksService } from './restaurant-feedbacks.service';
-import { GetManyRestaurantFeedbacksResponseDto } from './dto/response-restaurant-feedbacks.dto';
-import { QueryRestaurantFeedbacksDto } from './dto/query-restaurant-feedbacks.dto';
+import { GetManyRestaurantFeedbacksResponseDto } from './dtos/response-restaurant-feedbacks.dto';
+import { QueryRestaurantFeedbacksDto } from './dtos/query-restaurant-feedbacks.dto';
 import {
   CreateRestaurantFeedBacksDto,
   UpdateRestaurantFeedbacksDto,
-} from './dto/upsert-restaurant-feedbacks.dto';
+} from './dtos/upsert-restaurant-feedbacks.dto';
 import { RestaurantFeedback } from './entities/feedback.entity';
 
 @ApiTags('Restaurants')

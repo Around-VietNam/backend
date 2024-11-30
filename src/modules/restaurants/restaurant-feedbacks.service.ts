@@ -6,15 +6,15 @@ import { RestaurantFeedback } from './entities/feedback.entity';
 import {
   GetManyRestaurantFeedbacksResponseDto,
   RestaurantFeedbacksResponseDto,
-} from './dto/response-restaurant-feedbacks.dto';
+} from './dtos/response-restaurant-feedbacks.dto';
 import { paginateData } from 'src/common/dtos';
-import { QueryRestaurantFeedbacksDto } from './dto/query-restaurant-feedbacks.dto';
+import { QueryRestaurantFeedbacksDto } from './dtos/query-restaurant-feedbacks.dto';
 import { Restaurant } from './entities/restaurant.entity';
 import { User } from '../users/entities/user.entity';
 import {
   CreateRestaurantFeedBacksDto,
   UpdateRestaurantFeedbacksDto,
-} from './dto/upsert-restaurant-feedbacks.dto';
+} from './dtos/upsert-restaurant-feedbacks.dto';
 
 @Injectable()
 export class RestaurantFeedbacksService
