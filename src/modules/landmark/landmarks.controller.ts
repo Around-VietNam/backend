@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LandmarksService } from './landmark.service';
 import { LandmarksResponseDto } from './dtos/response-landmarks.dto';
@@ -13,10 +13,20 @@ export class LandmarksController {
   @ApiResponse({
     status: 201,
     type: LandmarksResponseDto,
-    description: 'Create a new restaurant',
+    description: 'Create a new landmark',
   })
   @Post()
   async createLandmark(@Body() dto: UpsertLandmarksDto): Promise<Landmark> {
     return this.landmarkService.create(dto);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: LandmarksResponseDto,
+    description: 'Get landmark details',
+  })
+  @Get(':id')
+  async getRestaurant(@Param('id') id: number): Promise<Landmark> {
+    return this.landmarkService.getLandmarkById(id);
   }
 }
