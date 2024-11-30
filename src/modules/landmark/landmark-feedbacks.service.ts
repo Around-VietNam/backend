@@ -3,8 +3,8 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { paginateData } from 'src/common/dtos';
-import { LandmarkFeedback } from './entities/feedback.entity';
 import { Landmark } from './entities/landmark.entity';
+import { LandmarkFeedback } from './entities/feedback.entity';
 import { User } from '../users/entities/user.entity';
 import {
   GetManyLandmarkFeedbacksResponseDto,
@@ -23,7 +23,7 @@ export class LandmarkFeedbacksService
 {
   private readonly logger: Logger = new Logger(LandmarkFeedback.name);
   constructor(
-    @InjectRepository(Landmark)
+    @InjectRepository(LandmarkFeedback)
     public repository: Repository<LandmarkFeedback>,
     @InjectRepository(Landmark)
     private readonly landmarkRepository: Repository<Landmark>,

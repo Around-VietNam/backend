@@ -12,9 +12,14 @@ import { LandmarksService } from './landmark.service';
 import { LandmarksResponseDto } from './dtos/response-landmarks.dto';
 import { UpsertLandmarksDto } from './dtos/upsert-landmarks.dto';
 import { Landmark } from './entities/landmark.entity';
-import { GetManyLandmarkFeedbacksResponseDto } from './dtos/response-landmark-feedbacks.dto';
+import {
+  GetManyLandmarkFeedbacksResponseDto,
+  LandmarkFeedbacksResponseDto,
+} from './dtos/response-landmark-feedbacks.dto';
 import { QueryLandmarkFeedbacksDto } from './dtos/query-landmark-feedbacks.dto';
 import { LandmarkFeedbacksService } from './landmark-feedbacks.service';
+import { LandmarkFeedback } from './entities/feedback.entity';
+import { CreateLandmarkFeedBacksDto } from './dtos/upsert-landmark-feedbacks.dto';
 
 @ApiTags('Landmarks')
 @Controller('landmarks')
@@ -73,5 +78,19 @@ export class LandmarksController {
     @Query() query: QueryLandmarkFeedbacksDto,
   ): Promise<GetManyLandmarkFeedbacksResponseDto> {
     return this.landmarkFeedbackService.getFeedbacksByLandmarkId(id, query);
+  }
+
+  @ApiResponse({
+    status: 201,
+    type: LandmarkFeedbacksResponseDto,
+    description: 'Create a new feedback for a landmark',
+  })
+  @Post(':id/feedbacks')
+  async createFeedback(
+    @Param('id') id: number,
+    @Body() dto: CreateLandmarkFeedBacksDto,
+  ): Promise<LandmarkFeedback> {
+    console.log(dto);
+    return this.landmarkFeedbackService.createFeedback(id, dto);
   }
 }
