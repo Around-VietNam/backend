@@ -14,7 +14,10 @@ import { RestaurantsResponseDto } from './dtos/response-restaurants.dto';
 import { UpsertRestaurantsDto } from './dtos/upsert-restaurants.dto';
 import { Restaurant } from './entities/restaurant.entity';
 import { RestaurantFeedbacksService } from './restaurant-feedbacks.service';
-import { GetManyRestaurantFeedbacksResponseDto } from './dtos/response-restaurant-feedbacks.dto';
+import {
+  GetManyRestaurantFeedbacksResponseDto,
+  RestaurantFeedbacksResponseDto,
+} from './dtos/response-restaurant-feedbacks.dto';
 import { QueryRestaurantFeedbacksDto } from './dtos/query-restaurant-feedbacks.dto';
 import {
   CreateRestaurantFeedBacksDto,
@@ -85,7 +88,7 @@ export class RestaurantsController {
 
   @ApiResponse({
     status: 201,
-    type: RestaurantFeedback,
+    type: RestaurantFeedbacksResponseDto,
     description: 'Create a new feedback for a restaurant',
   })
   @Post(':id/feedbacks')
@@ -98,7 +101,7 @@ export class RestaurantsController {
 
   @ApiResponse({
     status: 200,
-    type: RestaurantFeedback,
+    type: RestaurantFeedbacksResponseDto,
     description: 'Update feedback for a restaurant',
   })
   @Put('feedbacks/:feedbackId')
