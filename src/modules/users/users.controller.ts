@@ -8,11 +8,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserResponseDto } from './dto/response-users.dto';
-import { CreateUsersDto, UpdateUserDto } from './dto/upsert-users.dto';
+import { UserResponseDto } from './dtos/response-users.dto';
+import { CreateUsersDto, UpdateUserDto } from './dtos/upsert-users.dto';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
-import { GetManyFavoriteRestaurantsResponseDto } from '../restaurants/dto/response-restaurants.dto';
+import { GetManyFavoriteRestaurantsResponseDto } from '../restaurants/dtos/response-restaurants.dto';
 
 @ApiTags('Users')
 @Controller('users')

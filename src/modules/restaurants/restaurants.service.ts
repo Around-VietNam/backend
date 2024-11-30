@@ -3,7 +3,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Restaurant } from './entities/restaurant.entity';
-import { UpsertRestaurantsDto } from './dto/upsert-restaurants.dto';
+import { UpsertRestaurantsDto } from './dtos/upsert-restaurants.dto';
 
 @Injectable()
 export class RestaurantsService
