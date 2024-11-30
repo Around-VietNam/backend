@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -19,7 +20,10 @@ import {
 import { QueryLandmarkFeedbacksDto } from './dtos/query-landmark-feedbacks.dto';
 import { LandmarkFeedbacksService } from './landmark-feedbacks.service';
 import { LandmarkFeedback } from './entities/feedback.entity';
-import { CreateLandmarkFeedBacksDto } from './dtos/upsert-landmark-feedbacks.dto';
+import {
+  CreateLandmarkFeedBacksDto,
+  UpdateLandmarkFeedbacksDto,
+} from './dtos/upsert-landmark-feedbacks.dto';
 
 @ApiTags('Landmarks')
 @Controller('landmarks')
@@ -92,5 +96,23 @@ export class LandmarksController {
   ): Promise<LandmarkFeedback> {
     console.log(dto);
     return this.landmarkFeedbackService.createFeedback(id, dto);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: LandmarkFeedbacksResponseDto,
+    description: 'Update feedback for a landmark',
+  })
+  @Put('feedbacks/:feedbackId')
+  async updateFeedback(
+    @Param('feedbackId') feedbackId: number,
+    @Body() dto: UpdateLandmarkFeedbacksDto,
+  ): Promise<LandmarkFeedback> {
+    return this.landmarkFeedbackService.updateFeedback(feedbackId, dto);
+  }
+
+  @Delete('feedbacks/:feedbackId')
+  async deleteFeedback(@Param('feedbackId') feedbackId: number): Promise<void> {
+    return this.landmarkFeedbackService.deleteFeedback(feedbackId);
   }
 }
