@@ -6,6 +6,7 @@ import dataSource from 'src/libs/typeORM.config';
 import { UsersModule } from './users/users.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { LandmarksModule } from './landmark/landmarks.module';
+import { TrafficModule } from './traffic/traffic.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { LandmarksModule } from './landmark/landmarks.module';
     UsersModule,
     RestaurantsModule,
     LandmarksModule,
+    TrafficModule,
   ],
 })
 export class AppModule {}

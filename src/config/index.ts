@@ -16,6 +16,7 @@ const envVarsSchema = Joi.object()
     MYSQL_USER: Joi.string().default('root').required(),
     MYSQL_PASSWORD: Joi.string().required(),
     MYSQL_DATABASE_NAME: Joi.string().required(),
+    TOMTOM_API_KEY: Joi.string().required(),
   })
   .unknown();
 
@@ -37,5 +38,8 @@ export const env = {
     password: envVars.MYSQL_PASSWORD,
     dbName: envVars.MYSQL_DATABASE_NAME,
     testDbName: 'test',
+  },
+  tomtom: {
+    apiKey: envVars.TOMTOM_API_KEY,
   },
 };
