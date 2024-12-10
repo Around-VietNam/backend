@@ -1,4 +1,4 @@
-import { Dish } from 'src/modules/dishes/entites/dish.entity';
+import { Dish } from 'src/modules/dishes/entities/dish.entity';
 import { Landmark } from 'src/modules/landmark/entities/landmark.entity';
 import { Restaurant } from 'src/modules/restaurants/entities/restaurant.entity';
 import { BaseEntity } from 'src/utils/entity/base-entity';
