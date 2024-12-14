@@ -44,7 +44,7 @@ export class UsersService
   async findByUserName(username: string): Promise<User> {
     return await this.repository.findOne({
       where: { username },
-      relations: ['favoriteRestaurants'],
+      relations: ['favoriteRestaurants', 'favoriteLandmarks'],
     });
   }
 

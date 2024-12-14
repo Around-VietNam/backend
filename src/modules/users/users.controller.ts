@@ -13,6 +13,7 @@ import { CreateUsersDto, UpdateUserDto } from './dtos/upsert-users.dto';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { GetManyFavoriteRestaurantsResponseDto } from '../restaurants/dtos/response-restaurants.dto';
+import { GetManyFavoriteLandmarksResponseDto } from '../landmark/dtos/response-landmarks.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -78,5 +79,33 @@ export class UsersController {
     @Param('restaurantId') restaurantId: number,
   ): Promise<void> {
     return this.service.removeFavoriteRestaurant(username, restaurantId);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: GetManyFavoriteLandmarksResponseDto,
+    description: 'Get all favorite landmarks',
+  })
+  @Get(':username/favorite-landmarks')
+  async getFavoriteLandmarks(
+    @Param('username') username: string,
+  ): Promise<GetManyFavoriteLandmarksResponseDto> {
+    return this.service.getFavoriteLandmarks(username);
+  }
+
+  @Post(':username/favorite-landmarks/:landmarkId')
+  async addFavoriteLandmark(
+    @Param('username') username: string,
+    @Param('landmarkId') landmarkId: number,
+  ): Promise<void> {
+    return this.service.addFavoriteLandmark(username, landmarkId);
+  }
+
+  @Delete(':username/favorite-landmarks/:landmarkId')
+  async removeFavoriteLandmark(
+    @Param('username') username: string,
+    @Param('landmarkId') landmarkId: number,
+  ): Promise<void> {
+    return this.service.removeFavoriteLandmark(username, landmarkId);
   }
 }
