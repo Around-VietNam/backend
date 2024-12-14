@@ -14,6 +14,11 @@ import {
   FavoriteRestaurantsResponseDto,
   GetManyFavoriteRestaurantsResponseDto,
 } from '../restaurants/dtos/response-restaurants.dto';
+import { Landmark } from '../landmark/entities/landmark.entity';
+import {
+  FavoriteLandmarksResponseDto,
+  GetManyFavoriteLandmarksResponseDto,
+} from '../landmark/dtos/response-landmarks.dto';
 
 @Injectable()
 export class UsersService
@@ -26,6 +31,8 @@ export class UsersService
     public repository: Repository<User>,
     @InjectRepository(Restaurant)
     private readonly restaurantRepository: Repository<Restaurant>,
+    @InjectRepository(Landmark)
+    private readonly landmarkRepository: Repository<Landmark>,
   ) {
     super(repository);
   }
@@ -156,6 +163,90 @@ export class UsersService
 
     user.favoriteRestaurants = user.favoriteRestaurants.filter(
       (favoriteRestaurant) => favoriteRestaurant.id !== restaurantId,
+    );
+    await user.save({ reload: true });
+  }
+
+  private async convertFavoriteLandmarksToDto(
+    landmark: Landmark,
+  ): Promise<FavoriteLandmarksResponseDto> {
+    return {
+      id: landmark.id,
+      name: landmark.name,
+      image: landmark.image,
+      description: landmark.description,
+      address: landmark.address,
+      phone: landmark.phone,
+      website: landmark.website,
+      rating: landmark.rating,
+    };
+  }
+
+  async getFavoriteLandmarks(
+    username: string,
+  ): Promise<GetManyFavoriteLandmarksResponseDto> {
+    try {
+      const user = await this.findByUserName(username);
+      const data = await Promise.all(
+        user.favoriteLandmarks.map((favoriteLandmark) =>
+          this.convertFavoriteLandmarksToDto(favoriteLandmark),
+        ),
+      );
+      return {
+        data,
+      };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+  async addFavoriteLandmark(
+    username: string,
+    landmarkId: number,
+  ): Promise<void> {
+    const user = await this.findByUserName(username);
+    if (!user) {
+      throw new BadRequestException({
+        message: `User with user name ${username} not found`,
+      });
+    }
+
+    const landmark = await this.landmarkRepository.findOneBy({
+      id: landmarkId,
+    });
+    if (!landmark) {
+      throw new BadRequestException({
+        message: `Landmark with id ${landmarkId} not found`,
+      });
+    }
+
+    user.favoriteLandmarks.push(landmark);
+    await user.save({ reload: true });
+  }
+
+  async removeFavoriteLandmark(
+    username: string,
+    landmarkId: number,
+  ): Promise<void> {
+    const user = await this.findByUserName(username);
+    if (!user) {
+      throw new BadRequestException({
+        message: `User with user name ${username} not found`,
+      });
+    }
+
+    const landmark = await this.restaurantRepository.findOneBy({
+      id: landmarkId,
+    });
+    if (!landmark) {
+      throw new BadRequestException({
+        message: `Landmark with id ${landmarkId} not found`,
+      });
+    }
+
+    user.favoriteLandmarks = user.favoriteLandmarks.filter(
+      (favoriteLandmark) => favoriteLandmark.id !== landmarkId,
     );
     await user.save({ reload: true });
   }
