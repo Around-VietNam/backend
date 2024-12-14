@@ -11,9 +11,6 @@ export class DishesResponseDto {
   @ApiResponseProperty({ type: Date })
   updated_at: Date;
 
-  @ApiResponseProperty({ type: Date })
-  deleted_at: Date;
-
   @ApiResponseProperty({ type: String })
   name: string;
 
@@ -28,6 +25,12 @@ export class DishesResponseDto {
 
   @ApiResponseProperty({ type: Boolean })
   special: boolean;
+}
+
+export class GetManyDishesResponseDto {
+  @ApiProperty({ type: DishesResponseDto, isArray: true })
+  @Type(() => DishesResponseDto)
+  data: DishesResponseDto[];
 }
 
 export class FavoriteDishesResponseDto {

@@ -5,6 +5,12 @@ import { Repository } from 'typeorm';
 import { Dish } from './entities/dish.entity';
 import { UpsertDishesDto } from './dtos/upsert-dishes.dto';
 import { Restaurant } from '../restaurants/entities/restaurant.entity';
+import {
+  DishesResponseDto,
+  GetManyDishesResponseDto,
+} from './dtos/response-dishes.dto';
+import { paginateData } from 'src/common/dtos';
+import { QueryDishesDto } from './dtos/query-dishes.dto';
 
 @Injectable()
 export class DishesService
@@ -77,5 +83,41 @@ export class DishesService
   async deleteDish(id: number): Promise<void> {
     const dish = await this.getDishById(id);
     await dish.remove();
+  }
+
+  private async convertDishesToDto(dish: Dish): Promise<DishesResponseDto> {
+    return {
+      created_at: dish.created_at,
+      updated_at: dish.updated_at,
+      id: dish.id,
+      name: dish.name,
+      image: dish.image,
+      description: dish.description,
+      price: dish.price,
+      special: dish.special,
+    };
+  }
+
+  async getDishesFromRestaurant(
+    restaurantId: number,
+    query: QueryDishesDto,
+  ): Promise<GetManyDishesResponseDto> {
+    try {
+      const restaurant = await this.restaurantRepository.findOne({
+        where: { id: restaurantId },
+        relations: ['dishes'],
+      });
+      if (!restaurant) {
+        throw new Error('Restaurant not found');
+      }
+
+      const dishes = await Promise.all(
+        restaurant.dishes.map((dish) => this.convertDishesToDto(dish)),
+      );
+      return paginateData(dishes, query);
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
   }
 }
