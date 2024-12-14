@@ -1,7 +1,7 @@
 import { BaseEntity } from 'src/utils/entity/base-entity';
 import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 import { RestaurantFeedback } from './feedback.entity';
-import { Dish } from 'src/modules/dishes/entites/dish.entity';
+import { Dish } from 'src/modules/dishes/entities/dish.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 
 @Entity('restaurant')
