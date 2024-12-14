@@ -10,7 +10,10 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DishesService } from './dishes.service';
-import { DishesResponseDto } from './dtos/response-dishes.dto';
+import {
+  DishesResponseDto,
+  GetManyDishesResponseDto,
+} from './dtos/response-dishes.dto';
 import { UpsertDishesDto } from './dtos/upsert-dishes.dto';
 import { Dish } from './entities/dish.entity';
 import {
@@ -24,6 +27,7 @@ import {
   UpdateDishFeedbacksDto,
 } from './dtos/upsert-dish-feedbacks.dto';
 import { DishFeedback } from './entities/feedback.entity';
+import { QueryDishesDto } from './dtos/query-dishes.dto';
 
 @ApiTags('Dishes')
 @Controller('dishes')
@@ -113,5 +117,18 @@ export class DishesController {
   @Delete('feedbacks/:feedbackId')
   async deleteFeedback(@Param('feedbackId') feedbackId: number): Promise<void> {
     return this.dishFeedbackService.deleteFeedback(feedbackId);
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: GetManyDishesResponseDto,
+    description: 'Get all dishes from a restaurant',
+  })
+  @Get('includes/:restaurantId')
+  async getDishesFromRestaurant(
+    @Param('restaurantId') restaurantId: number,
+    @Query() query: QueryDishesDto,
+  ): Promise<GetManyDishesResponseDto> {
+    return this.dishesService.getDishesFromRestaurant(restaurantId, query);
   }
 }
